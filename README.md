@@ -10,6 +10,6 @@ Prior workshops (transfering the workshop site repos will break their links so t
 * [2016-08-17-UF-Informatics-Institute](https://acislab.github.io/2016-08-17-UF-Informatics-Institute/) (R Software Carpentry)
 * [2016-10-17-uf](https://weecology.github.io/2016-10-17-uf/) (R Data Carpentry)
 * [2017-02-06-UF-Informatics-Institute](https://acislab.github.io/2017-02-06-UF-Informatics-Institute/) (R Software Carpentry)
-* second instructor training
+* [2017-05-22-ttt-UFII](https://github.com/fmichonneau/2017-05-22-ttt-UFII) (second instructor training)
 * [2017-05-25-UF](https://weecology.github.io/2017-05-25-UF/) (Python Software Carpentry)
 * [2017-10-30-iDigBio-Summit-UFII](https://idigbio.github.io/2017-10-30-iDigBio-Summit-UFII/) (R Data Carpentry)
