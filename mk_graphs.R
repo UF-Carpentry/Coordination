@@ -35,8 +35,8 @@ affiliation_graph <- function(count_data, title="Participants by Affiliation"){
     guides(fill=FALSE) +
     theme(plot.title = element_text(hjust = 0.5)) + 
     labs(y = "Number of Participants", x = "UF Affiliation", title=title) + 
-    annotate("text", y=text_y, x=1.5, label=paste0("Total Participants: ", everyone$nn))
-  
+    ggplot2::annotate("text", y=text_y, x=1.5, label=paste0("Total Participants: ", everyone$nn))
+    # tm library has an "annotate" too
   return(p)
 }
 
@@ -46,7 +46,7 @@ affiliation_counts <- corrected_participants %>%
   tally()
 p <- affiliation_graph(affiliation_counts)
 ggsave("graphs/participants_all.png", plot=p, height=3, width=4)
-print(p)
+#print(p)
 
 # Most recent full year
 year <- 2017
@@ -56,3 +56,31 @@ affiliation_counts <- corrected_participants %>%
   tally()
 p <- affiliation_graph(affiliation_counts, paste0("Participants by Affiliation in ", year))
 ggsave(paste0("graphs/participants_", year, ".png"), plot=p, height=3, width=4)
+
+
+# Wordcloud!
+library(tm)
+library(wordcloud)
+depts <- Corpus(VectorSource(corrected_participants$Department))
+
+
+# remove junk words
+depts <- tm_map(depts, stripWhitespace)
+depts <- tm_map(depts, content_transformer(tolower))
+depts <- tm_map(depts, removeWords, stopwords("english"))
+depts <- tm_map(depts, removeWords, c("and", "department", "florida", "lab")) 
+
+dtm <- TermDocumentMatrix(depts)
+m <- as.matrix(dtm)
+v <- sort(rowSums(m),decreasing=TRUE)
+d <- data.frame(word = names(v),freq=v)
+set.seed(8)
+png(paste0("graphs/wordcloud_", "all", ".png"), height=450, width=600)
+wordcloud(words=d$word, freq=d$freq, 
+          random.order=TRUE, max.words=50, colors=brewer.pal(8, "Dark2"))
+dev.off()
+
+
+# Cumulative workshops graph
+
+
