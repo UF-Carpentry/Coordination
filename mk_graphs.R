@@ -40,7 +40,7 @@ affiliation_graph <- function(count_data, title="Participants by Affiliation"){
   return(p)
 }
 
-# All paricipants graph
+# All participants graph
 affiliation_counts <- corrected_participants %>%
   group_by(Affiliation) %>%
   tally()
@@ -81,6 +81,42 @@ wordcloud(words=d$word, freq=d$freq,
 dev.off()
 
 
-# Cumulative workshops graph
+# Cumulative graph
+participants_over_time <- corrected_participants %>%
+  mutate(Date = as.Date(paste(Year, Month, Day, sep='-'))) %>%
+  group_by(Event, Carpentry, Date) %>%
+  tally() %>%
+  arrange(Date) %>%
+  mutate(number = row_number())
+
+year_starts <- as.Date(paste(unique(corrected_participants$Year), 1, 1, sep='-'))
+
+cumulative_graph <- function(cumulative_data, y, title){
+  p <- ggplot(cumulative_data, aes(x=Date, y=cumsum(y))) + 
+    geom_step(direction="hv", colour="dodgerblue", size=1) + 
+    scale_x_date(breaks=cumulative_data$Date,
+                 labels=paste0(cumulative_data$Carpentry, "\n", cumulative_data$Date),
+                 limits=c(as.Date("2016-03-15"), NA)) +
+    scale_y_continuous(limits=c(0, NA)) + 
+    labs(y = "Cumulative Number", x = "Workshops", title=title) + 
+    theme(plot.title = element_text(hjust = 0.5)) + 
+    theme(axis.text.x= element_text(angle=35, hjust = 1))
+  
+  for (x in year_starts){
+    p <- p + geom_vline(aes(xintercept=x), colour="indianred", linetype="dashed", size=0.5)
+  }
+  
+  return(p)
+}
+
+# workshops
+p <- cumulative_graph(participants_over_time, participants_over_time$number, "Cumulative Workshops Over Time")
+#print(p)
+ggsave(paste0("graphs/cumulative_wks.png"), plot=p, height=3, width=4)
+
+# participants
+p <- cumulative_graph(participants_over_time, participants_over_time$n, "Cumulative Participants Over Time")
+#print(p)
+ggsave(paste0("graphs/cumulative_part.png"), plot=p, height=3, width=4)
 
 
