@@ -117,7 +117,7 @@ cumulative_graph <- function(cumulative_data, y, title){
                                "\n", cumulative_data$Date),
                  limits=c(as.Date("2016-01-20"), NA)) +
     scale_y_continuous(limits=c(0, NA), breaks=pretty_breaks()) + 
-    labs(y = "Cumulative Number", x = "Workshops", title=title) + 
+    labs(y = "Cumulative Number", x = "Workshops", title=title, subtitle=as_of) + 
     theme(plot.title = element_text(hjust=0.5), plot.subtitle = element_text(hjust=0.5)) +
     theme(axis.text.x=element_text(size=5, angle=90, hjust=0.5, vjust=0.5)) + 
     theme(axis.text.y=element_text(size=5))
