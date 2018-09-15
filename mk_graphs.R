@@ -2,7 +2,7 @@ library(tidyverse)
 library(stringi) # stri_pad_both()
 library(scales) # pretty_breaks()
 
-participants <- read.csv("data/MergedParticipants.csv", stringsAsFactors = FALSE)
+participants <- read.csv("../workshop-data/participants.csv", stringsAsFactors = FALSE)
 # Coding for students has varied over time, merge together some older codes and assume
 # that all "Student"s were graduate.
 corrected_participants <- participants %>%
@@ -91,7 +91,7 @@ plot.new()
 text(x=0.5, y=0.5, cex=2, "Wordcloud of Participant Departments")
 text(x=0.5, y=0.1, cex=1.6, as_of)
 wordcloud(words=d$word, freq=d$freq, 
-          random.order=TRUE, max.words=50, colors=brewer.pal(8, "Dark2"))
+          random.order=TRUE, max.words=40, colors=brewer.pal(8, "Dark2"))
 dev.off()
 
 
