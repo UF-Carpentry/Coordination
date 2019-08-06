@@ -1,0 +1,2 @@
+# Don't add data files that contain personal information.
+data/
