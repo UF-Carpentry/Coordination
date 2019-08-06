@@ -24,8 +24,7 @@ print("Who has contributed (in any role) more than twice since cutoff_date")
 inst_df %>%
   filter(as.POSIXct(date, format="%Y-%m-%d") > as.POSIXct(cutoff_date, format="%Y-%m-%d")) %>%
   group_by(Name, Email) %>%
-  # filter(role=="instructor") %>% 
   count() %>%
-  filter(n>2) %>% 
+  filter(n>=2) %>% 
   arrange(Name, Email) %>%
   print(n=1000)
